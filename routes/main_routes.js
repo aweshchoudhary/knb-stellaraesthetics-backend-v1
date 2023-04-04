@@ -4,20 +4,24 @@ const {
   createStage,
   updateStage,
   deleteStage,
+  getStageById,
+} = require("../controllers/stage_controller");
+const {
   getCard,
   createCard,
   deleteCard,
   updateCard,
-  getStageById,
   updateCardStage,
-} = require("../controllers/main_controller");
+} = require("../controllers/card_controller");
 
+// STAGE ENDPOINTS
 router.post("/stage", createStage);
 router.put("/stage", updateStage);
 router.delete("/stage", deleteStage);
 router.get("/get-all-stages", getAllStages);
 router.get("/get-stage", getStageById);
 
+// CARD ENDPOINTS
 router.get("/get-card", getCard);
 router.get("/get-cards", getCard);
 router.post("/card", createCard);

@@ -23,13 +23,61 @@ const Value_Schema = new mongoose.Schema({
   type: String,
 });
 
-const Card_Schema = new mongoose.Schema({
-  clientDetails: ClientDetails_Schema,
-  value: Value_Schema,
-  stage: String,
-  color: String,
-  expectedClosingDate: { type: Date, default: new Date() },
-});
+const Note_Schema = new mongoose.Schema(
+  {
+    body: String,
+    markDone: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
+const Activity_Schema = new mongoose.Schema(
+  {
+    title: String,
+    type: String,
+    startDate: Date,
+    startTime: String,
+    endDate: Date,
+    endTime: String,
+    description: String,
+    location: String,
+    holder: String,
+    markDone: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
+
+const File_Schema = new mongoose.Schema(
+  {
+    name: String,
+    size: Number,
+    type: String,
+  },
+  { timestamps: true }
+);
+const Mail_Schema = new mongoose.Schema(
+  {
+    mailId: String,
+    senderEmail: String,
+    receiverEmail: String,
+    Subject: String,
+  },
+  { timestamps: true }
+);
+
+const Card_Schema = new mongoose.Schema(
+  {
+    clientDetails: ClientDetails_Schema,
+    value: Value_Schema,
+    stage: String,
+    color: String,
+    expectedClosingDate: { type: Date, default: new Date() },
+    notes: Array,
+    activities: [Activity_Schema],
+    files: [File_Schema],
+    mails: [Mail_Schema],
+  },
+  { timestamps: true }
+);
 
 const Card_Model = mongoose.model("Card", Card_Schema);
 module.exports = Card_Model;
