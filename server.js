@@ -14,6 +14,6 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 app.use("/api", main_routes);
-connect_db();
 
 app.listen(port, () => console.log(`Server is started on port ${port}`));
+connect_db();

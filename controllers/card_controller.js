@@ -6,6 +6,11 @@ const asyncHandler = require("express-async-handler");
 const createCard = asyncHandler(async (req, res) => {
   const newCard = new Card_Model({
     ...req.body,
+    stage: [
+      {
+        _id: req.body.stage,
+      },
+    ],
   });
   const card = await newCard.save();
   await Stage_Model.findByIdAndUpdate(req.body.stage, {
@@ -29,9 +34,11 @@ const updateCardStage = asyncHandler(async (req, res) => {
     $push: { items: cardId },
   });
   // update card stage
-  await Card_Model.findByIdAndUpdate(cardId, {
-    stage: newStageId,
-  });
+  const card = await Card_Model.findById(cardId);
+  card.stages.forEach((stage) => (stage.active = false));
+  card.stages.push({ _id: newStageId });
+  await card.save();
+
   res.status(200).json({ message: "stage has been changed" });
 });
 const getCardsByStage = asyncHandler(async (req, res) => {
@@ -50,6 +57,85 @@ const deleteCard = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Card Has Been Deleted" });
 });
 
+// NOTES CONTROLLERS
+const addNote = asyncHandler(async (req, res) => {
+  const { cardId, noteBody } = req.body;
+  // get card by id
+  await Card_Model.findByIdAndUpdate(cardId, {
+    $push: {
+      notes: {
+        body: noteBody,
+      },
+    },
+  });
+  res.status(200).json({ message: "Note has been added to card" });
+});
+const updateNote = asyncHandler(async (req, res) => {
+  const { cardId, noteId, noteBody } = req.body;
+
+  // get card by id
+  const card = await Card_Model.findById(cardId);
+  card.notes.forEach((note) => {
+    console.log(note._id);
+    if (note.id === noteId) {
+      note.body = noteBody;
+    }
+  });
+  await card.save();
+  res.status(200).json({ message: "Note has been updated" });
+});
+const deleteNote = asyncHandler(async (req, res) => {
+  const { cardId, noteId } = req.body;
+  await Card_Model.findByIdAndUpdate(cardId, {
+    $pull: {
+      notes: {
+        _id: noteId,
+      },
+    },
+  });
+  res.status(200).json({ message: "Note has been deleted" });
+});
+
+const addActivity = asyncHandler(async (req, res) => {
+  const { data } = req.body;
+  // get card by id
+  await Card_Model.findByIdAndUpdate(cardId, {
+    $push: {
+      activities: {
+        ...data,
+      },
+    },
+  });
+  res.status(200).json({ message: "Activity has been added to card" });
+});
+const updateActivity = asyncHandler(async (req, res) => {
+  const { cardId, activityId, data } = req.body;
+
+  // get card by id
+  const card = await Card_Model.findById(cardId);
+  card.activities.forEach((activity) => {
+    if (activity.id === activityId) {
+      activity = {
+        ...activity,
+        ...data,
+      };
+    }
+  });
+  await card.save();
+  res.status(200).json({ message: "Activity has been updated" });
+});
+const deleteActivity = asyncHandler(async (req, res) => {
+  const { cardId, activityId } = req.body;
+  await Card_Model.findByIdAndUpdate(cardId, {
+    $pull: {
+      notes: {
+        _id: activityId,
+      },
+    },
+  });
+  res.status(200).json({ message: "Activity has been deleted" });
+});
+
 module.exports = {
   getCard,
   getCardsByStage,
@@ -57,4 +143,10 @@ module.exports = {
   createCard,
   updateCard,
   deleteCard,
+  addNote,
+  updateNote,
+  deleteNote,
+  addActivity,
+  updateActivity,
+  deleteActivity,
 };

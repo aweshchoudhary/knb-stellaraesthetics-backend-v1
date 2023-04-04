@@ -12,6 +12,12 @@ const {
   deleteCard,
   updateCard,
   updateCardStage,
+  addNote,
+  updateNote,
+  deleteNote,
+  addActivity,
+  updateActivity,
+  deleteActivity,
 } = require("../controllers/card_controller");
 
 // STAGE ENDPOINTS
@@ -28,5 +34,13 @@ router.post("/card", createCard);
 router.delete("/card", deleteCard);
 router.put("/card", updateCard);
 router.put("/update-card-stage", updateCardStage);
+
+router.post("/card/add-note", addNote);
+router.put("/card/update-note", updateNote);
+router.delete("/card/delete-note", deleteNote);
+
+router.post("/card/add-activity", addActivity);
+router.put("/card/update-activity", updateActivity);
+router.delete("/card/delete-activity", deleteActivity);
 
 module.exports = router;

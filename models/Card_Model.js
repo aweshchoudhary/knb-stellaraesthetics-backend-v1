@@ -26,7 +26,6 @@ const Value_Schema = new mongoose.Schema({
 const Note_Schema = new mongoose.Schema(
   {
     body: String,
-    markDone: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
@@ -64,14 +63,21 @@ const Mail_Schema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const Stage_Schema = new mongoose.Schema(
+  {
+    active: { type: Boolean, default: true },
+  },
+  { timestamps: true }
+);
+
 const Card_Schema = new mongoose.Schema(
   {
     clientDetails: ClientDetails_Schema,
     value: Value_Schema,
-    stage: String,
+    stages: [Stage_Schema],
     color: String,
     expectedClosingDate: { type: Date, default: new Date() },
-    notes: Array,
+    notes: [Note_Schema],
     activities: [Activity_Schema],
     files: [File_Schema],
     mails: [Mail_Schema],
