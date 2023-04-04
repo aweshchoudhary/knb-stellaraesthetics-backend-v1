@@ -18,7 +18,11 @@ const {
   addActivity,
   updateActivity,
   deleteActivity,
+  deleteFile,
+  addFile,
+  getFile,
 } = require("../controllers/card_controller");
+const upload = require("../apps/multer");
 
 // STAGE ENDPOINTS
 router.post("/stage", createStage);
@@ -42,5 +46,9 @@ router.delete("/card/delete-note", deleteNote);
 router.post("/card/add-activity", addActivity);
 router.put("/card/update-activity", updateActivity);
 router.delete("/card/delete-activity", deleteActivity);
+
+router.post("/card/add-file", upload.single("file"), addFile);
+router.put("/card/download-file", getFile);
+router.delete("/card/delete-file", deleteFile);
 
 module.exports = router;
