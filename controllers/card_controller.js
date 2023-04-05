@@ -61,7 +61,7 @@ const updateCard = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Card Has Been Updated" });
 });
 const deleteCard = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.query;
   await Card_Model.findByIdAndDelete(id);
   res.status(200).json({ message: "Card Has Been Deleted" });
 });
