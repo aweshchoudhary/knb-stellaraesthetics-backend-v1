@@ -36,8 +36,16 @@ const updateCardStage = asyncHandler(async (req, res) => {
   });
   // update card stage
   const card = await Card_Model.findById(cardId);
-  card.stages.forEach((stage) => (stage.active = false));
-  card.stages.push({ _id: newStageId });
+  let isExists = false;
+  card.stages.forEach((stage) => {
+    if (stage.id === newStageId) {
+      stage.active = true;
+      isExists = true;
+    } else {
+      stage.active = false;
+    }
+  });
+  !isExists && card.stages.push({ _id: newStageId });
   await card.save();
 
   res.status(200).json({ message: "stage has been changed" });
@@ -86,7 +94,7 @@ const updateNote = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Note has been updated" });
 });
 const deleteNote = asyncHandler(async (req, res) => {
-  const { cardId, noteId } = req.body;
+  const { cardId, noteId } = req.query;
   await Card_Model.findByIdAndUpdate(cardId, {
     $pull: {
       notes: {
