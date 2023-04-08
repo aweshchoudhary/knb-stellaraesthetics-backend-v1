@@ -95,6 +95,7 @@ const updateNote = asyncHandler(async (req, res) => {
 });
 const deleteNote = asyncHandler(async (req, res) => {
   const { cardId, noteId } = req.query;
+  console.log(noteId);
   await Card_Model.findByIdAndUpdate(cardId, {
     $pull: {
       notes: {
@@ -106,7 +107,8 @@ const deleteNote = asyncHandler(async (req, res) => {
 });
 
 const addActivity = asyncHandler(async (req, res) => {
-  const { data } = req.body;
+  const { data, cardId } = req.body;
+  console.log(data, cardId);
   // get card by id
   await Card_Model.findByIdAndUpdate(cardId, {
     $push: {
