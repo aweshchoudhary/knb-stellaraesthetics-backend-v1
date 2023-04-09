@@ -23,46 +23,6 @@ const Value_Schema = new mongoose.Schema({
   type: String,
 });
 
-const Note_Schema = new mongoose.Schema(
-  {
-    body: String,
-  },
-  { timestamps: true }
-);
-const Activity_Schema = new mongoose.Schema(
-  {
-    title: String,
-    type: String,
-    startDate: Date,
-    startTime: String,
-    endDate: Date,
-    endTime: String,
-    description: String,
-    location: String,
-    holder: String,
-    markDone: { type: Boolean, default: false },
-  },
-  { timestamps: true }
-);
-
-const File_Schema = new mongoose.Schema(
-  {
-    name: String,
-    size: Number,
-    type: String,
-  },
-  { timestamps: true }
-);
-const Mail_Schema = new mongoose.Schema(
-  {
-    mailId: String,
-    senderEmail: String,
-    receiverEmail: String,
-    Subject: String,
-  },
-  { timestamps: true }
-);
-
 const Stage_Schema = new mongoose.Schema(
   {
     active: { type: Boolean, default: true },
@@ -76,11 +36,7 @@ const Card_Schema = new mongoose.Schema(
     value: Value_Schema,
     stages: [Stage_Schema],
     color: String,
-    expectedClosingDate: { type: Date, default: new Date() },
-    notes: [Note_Schema],
-    activities: [Activity_Schema],
-    files: [File_Schema],
-    mails: [Mail_Schema],
+    expectedClosingDate: Date,
   },
   { timestamps: true }
 );

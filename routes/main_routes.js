@@ -5,6 +5,7 @@ const {
   updateStage,
   deleteStage,
   getStageById,
+  reorderStages,
 } = require("../controllers/stage_controller");
 const {
   getCard,
@@ -12,24 +13,30 @@ const {
   deleteCard,
   updateCard,
   updateCardStage,
-  addNote,
-  updateNote,
-  deleteNote,
+} = require("../controllers/card_controller");
+const {
   addActivity,
   updateActivity,
   deleteActivity,
-  deleteFile,
-  addFile,
-  getFile,
-} = require("../controllers/card_controller");
+  getActivitiesByCardId,
+  getActivityById,
+} = require("../controllers/activity_controller");
+const {
+  addNote,
+  updateNote,
+  deleteNote,
+  getNotesByCardId,
+  getNotesById,
+} = require("../controllers/note_controller");
 const upload = require("../apps/multer");
 
 // STAGE ENDPOINTS
 router.post("/stage", createStage);
-router.put("/stage", updateStage);
-router.delete("/stage", deleteStage);
+router.put("/stage/:id", updateStage);
+router.delete("/stage/:id", deleteStage);
 router.get("/get-all-stages", getAllStages);
 router.get("/get-stage", getStageById);
+router.put("/stage/reorder", reorderStages);
 
 // CARD ENDPOINTS
 router.get("/get-card", getCard);
@@ -39,16 +46,20 @@ router.delete("/card", deleteCard);
 router.put("/card", updateCard);
 router.put("/update-card-stage", updateCardStage);
 
-router.post("/card/add-note", addNote);
-router.put("/card/update-note", updateNote);
-router.delete("/card/delete-note", deleteNote);
+router.post("/note/add", addNote);
+router.put("/note/update/:id", updateNote);
+router.delete("/note/delete/:id", deleteNote);
+router.get("/note/get-notes/:cardId", getNotesByCardId);
+router.get("/note/get-note/:id", getNotesById);
 
-router.post("/card/add-activity", addActivity);
-router.put("/card/update-activity", updateActivity);
-router.delete("/card/delete-activity", deleteActivity);
+router.post("/activity/add", addActivity);
+router.put("/activity/update", updateActivity);
+router.delete("/activity/delete", deleteActivity);
+router.get("/activity/get-activities/:cardId", getActivitiesByCardId);
+router.get("/activity/get-activities/:id", getActivityById);
 
-router.post("/card/add-file", upload.single("file"), addFile);
-router.put("/card/download-file", getFile);
-router.delete("/card/delete-file", deleteFile);
+// router.post("/file/add", upload.single("file"), addFile);
+// router.put("/file/download", getFile);
+// router.delete("/file/delete", deleteFile);
 
 module.exports = router;
