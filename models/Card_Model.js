@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
 const Phone_Schema = new mongoose.Schema({
-  number: Number,
-  prefix: Number,
+  number: String,
   type: String,
 });
 const Email_Schema = new mongoose.Schema({

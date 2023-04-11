@@ -28,13 +28,20 @@ const {
   getNotesByCardId,
   getNotesById,
 } = require("../controllers/note_controller");
+const {
+  createLabel,
+  getLabelById,
+  getLabels,
+  updateLabel,
+  deleteLabel,
+} = require("../controllers/label_controller");
 const upload = require("../apps/multer");
 
 // STAGE ENDPOINTS
 router.post("/stage", createStage);
 router.put("/stage/:id", updateStage);
 router.delete("/stage/:id", deleteStage);
-router.get("/get-all-stages", getAllStages);
+router.get("/get-stages", getAllStages);
 router.get("/get-stage", getStageById);
 router.put("/stage/reorder", reorderStages);
 
@@ -53,10 +60,16 @@ router.get("/note/get-notes/:cardId", getNotesByCardId);
 router.get("/note/get-note/:id", getNotesById);
 
 router.post("/activity/add", addActivity);
-router.put("/activity/update", updateActivity);
-router.delete("/activity/delete", deleteActivity);
+router.put("/activity/update/:id", updateActivity);
+router.delete("/activity/delete/:id", deleteActivity);
 router.get("/activity/get-activities/:cardId", getActivitiesByCardId);
-router.get("/activity/get-activities/:id", getActivityById);
+router.get("/activity/get-activity/:id", getActivityById);
+
+router.post("/label/add", createLabel);
+router.put("/label/update/:id", updateLabel);
+router.delete("/label/delete/:id", deleteLabel);
+router.get("/label/get-labels", getLabels);
+router.get("/label/get-label/:id", getLabelById);
 
 // router.post("/file/add", upload.single("file"), addFile);
 // router.put("/file/download", getFile);
